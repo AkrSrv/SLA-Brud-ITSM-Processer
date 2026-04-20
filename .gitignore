@@ -6,3 +6,10 @@
 
 # MSBuild Binary and Structured Log
 *.binlog
+
+# macOS metadata
+.DS_Store
+
+# Local generated output
+/output
+/tmp

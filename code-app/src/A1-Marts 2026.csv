@@ -1,0 +1,122 @@
+RecID,IncidentID,CreatedDateTime,Status,Service,Category,Subcategory,Description,ClosedDateTime,OwnedByTeam,OwnedBy,CustomerRecID,CloseDescription,LastModifiedDateTime,IncidentType,SLAResolveByDeadline,Source,CustomerDisplayName,PendingReason,Stat_SLAResolutionGood,Stat_DateTimeResolved,PendingStartDateTime,ShortDescription,Description,DefaultTeam,Servicedesk,Company,CompanyID,WorkflowIndication,BDEstimatedHours,PriorityDisplay,ExternalIncidentId,PendingStatusAllowSTC,Stat_First_Call_Resolution_BD,Integrationrecord,TicketStartetAt,TimeregistrationBillingComments,Minutes_To_Resolve
+94cca1f3844e1d132deee04f71a9379317cd5c7e7d,2467293,2026-03-11 14.29.10.840,Closed,JN Data,Teknisk fejlmelding til JN Data,Teknisk fejlmelding til JN Data Critial,About 14:10 we lost network connection to Nasdaq that goes throug Clobal Connect,2026-03-25 15.44.00.903,IIT,Internal IT Postkasse Bankdata,94233e4709600abcd9ff724a219aceede3a6db48ab,"Incident has been resolved, more details in journalAutoclosed by Scheduler",2026-03-25 15.45.21.293,Incident,2026-03-11 14.29.10.840,External ITSM,Michael Tanghus Haugaard,,1,2026-03-11 15.43.54.000,1900-01-01 00.00.00.000,Network connection to Nasdaq lost,About 14:10 we lost network connection to Nasdaq that goes throug Clobal Connect,IIT,Service Desk - Internal IT,Bankdata,100,0,,A1 < 3 hours,6036875,0,0,BDIncident,BD,0,74
+94cce08f1920ea5090bd3a4c94a9b49d4bfa3c2294,2470739,2026-03-16 08.27.36.987,Closed,Digitale arbejdspladser,Medarbejderportal,Logon Svartider,"Så er den gal igen her ca. 8:20 om morgenen med lange svartider. Som om det er når der er mange der starter MEP op på samme tid, for det plejer at gå over ca. 8:45.",2026-04-01 15.47.06.180,MSI,Bo Kehlet,9425ba1b425331dfbbe09c4845b3869f5cfbde51da,"Hi Torben,
+ 
+All task will still be handled in problem 12194. Migration to new HNAS nodes is planned, further investigation is waiting for a PIR to be executed on the HNAS.Autoclosed by Scheduler",2026-04-01 15.48.22.300,Incident,2026-03-16 08.27.36.987,External ITSM,Torben Windeløv Myrhøj,,0,2026-03-18 15.46.57.000,1900-01-01 00.00.00.000,MEP har lange svartider,"Så er den gal igen her ca. 8:20 om morgenen med lange svartider. Som om det er når der er mange der starter MEP op på samme tid, for det plejer at gå over ca. 8:45.",MSI,Service Desk Operations,Jyske Bank,051,0,,A1 < 3 hours,6055350,0,0,BDIncident,BD,0,3319
+94cd0abef7f0d6de582fff49ad9441a7c84b4edaab,2474936,2026-03-19 13.15.33.533,Pending,Digitale arbejdspladser,Medarbejderportal,Logon Svartider,"Kører til man ender på 
+MEPLoginCurityPortlet
+Denne miniportal er ikke tilgængelig.
+
+Enkelte får adgang, men så er den MEGET langsom",1900-01-01 00.00.00.000,SRV,Mette Korsgaard Jensen,9425ba1c1484486e59ce674a16bd54598198f9c0d3,"Hej Thomas
+ 
+Den var kort tid efter kørende igen, så alt kører normalt igen.",2026-04-01 08.55.26.820,Incident,2026-03-19 17.17.33.000,External ITSM,Thomas Mølgaard Bruggisser,Pending,0,1900-01-01 00.00.00.000,2026-03-27 11.39.03.033,MEP er død,"Kører til man ender på 
+MEPLoginCurityPortlet
+Denne miniportal er ikke tilgængelig.
+
+Enkelte får adgang, men så er den MEGET langsom",MSI,Service Desk Operations,Jyske Bank,051,0,,A1 < 3 hours,6058861,0,0,BDIncident,BD,0,-66381915
+94cd3d19739f3cafd0ebef4be1838f98fb94c730c9,2477678,2026-03-23 08.55.30.003,Resolved,Driftssupport,Digital Relationsbank,Login,"Det er ikke muligt at tilgå netbanken – mobilbanken virker fint
+
+ 
+ 
+Og MitID benyttes også fint på andre hjemmesider
+ 
+Venlig hilsen 
+
+Rikke
+Kunderådgiver 
+Kundecenter, Hotline 
+
+
+T +45 89 89 28 00 
+Kastaniehøjvej 2 | 8600 Silkeborg
+Jyske Bank A/S | CVR-nr. 17 61 66 17
+
+
+Betal med mobilen - det er nemt, hurtigt og sikkert
+
+Denne mail kan indeholde fortrolig information. Hvis du modtager mailen ved en fejl, beder vi dig informere os om det hurtigst muligt og slette den uden at videresende eller kopiere indholdet. Vi anbefaler, at du sender fortrolige oplysninger til din rådgiver via e-Boks – se vejledning her. Vil du vide, hvordan vi behandler dine personoplysninger, så se vores persondatapolitik her. Ønsker du at klage over Jyske Bank klik her. En klage kan også indgives til Det finansielle ankenævn eller EU-Kommissionens online klageportal ec.europa.eu/odr. Det er særlig relevant, hvis du er forbruger med bopæl i et andet EU-land. Angiv mailadressen juridisk@jyskebank.dk ved indgivelse af klage.",1900-01-01 00.00.00.000,Service Desk Digital Banking,Jakob Dyrgaard,9426c14433c2da724c8f6e44f39edcc943ee253c28,Der har været et udfald på 8 minutter (fra 01:21 til 01:29),2026-03-23 09.04.45.503,Incident,2026-03-23 11.55.30.000,Phone,PI51,,1,2026-03-23 09.02.23.737,1900-01-01 00.00.00.000,Netbank virker ikke,"Det er ikke muligt at tilgå netbanken – mobilbanken virker fint
+
+ 
+ 
+Og MitID benyttes også fint på andre hjemmesider
+ 
+Venlig hilsen 
+
+Rikke
+Kunderådgiver 
+Kundecenter, Hotline 
+
+
+T +45 89 89 28 00 
+Kastaniehøjvej 2 | 8600 Silkeborg
+Jyske Bank A/S | CVR-nr. 17 61 66 17
+
+
+Betal med mobilen - det er nemt, hurtigt og sikkert
+
+Denne mail kan indeholde fortrolig information. Hvis du modtager mailen ved en fejl, beder vi dig informere os om det hurtigst muligt og slette den uden at videresende eller kopiere indholdet. Vi anbefaler, at du sender fortrolige oplysninger til din rådgiver via e-Boks – se vejledning her. Vil du vide, hvordan vi behandler dine personoplysninger, så se vores persondatapolitik her. Ønsker du at klage over Jyske Bank klik her. En klage kan også indgives til Det finansielle ankenævn eller EU-Kommissionens online klageportal ec.europa.eu/odr. Det er særlig relevant, hvis du er forbruger med bopæl i et andet EU-land. Angiv mailadressen juridisk@jyskebank.dk ved indgivelse af klage.",NTE,Service Desk Digital Banking,Jyske Bank,051,0,,A1 < 3 hours,,0,1,,,0,7
+94cd65427ab114d5130e8d4ddaae4be8b237dfba9e,2481501,2026-03-26 10.02.04.253,Resolved,Driftssupport,Digital Relationsbank,Overblik,"Hej Bankdata,
+Man kan ikke se sine konti i overblikket, og man kan ikke fortage overførsler eller betalinger i net- og mobilbank (Se skærmbilleder).
+Vi får en del opkald fra kunderne omkring dette, vil i tage et kig på dette.",1900-01-01 00.00.00.000,Service Desk Digital Banking,Thomas Ravn Lund,943c085b5dc3d4e9f5ee674105bebc27557d0c3fec,Det virker igen - igangsætning er rullet tilbage,2026-03-26 11.18.27.320,Incident,2026-03-26 13.02.04.000,Portal,Nikolaj Spørring,,1,2026-03-26 10.15.38.900,1900-01-01 00.00.00.000,Konti vises ikke og overførsler/betalinger virker ikke,"Hej Bankdata,
+Man kan ikke se sine konti i overblikket, og man kan ikke fortage overførsler eller betalinger i net- og mobilbank (Se skærmbilleder).
+Vi får en del opkald fra kunderne omkring dette, vil i tage et kig på dette.",OBB,Service Desk Digital Banking,Jyske Bank,051,0,,A1 < 3 hours,,0,1,,,0,13
+94cd68c9f55ab2bce418c342308c93ce9c34bc3bca,2482124,2026-03-26 16.27.33.323,Resolved,Driftssupport,Digital Relationsbank,Login,"Login menu på sjfbank.dk kommer ikke frem når man trykker ""log på"" 
+via browser på mobil, kommer der intet frem når man trykker på de tre streger i øverste højre hjørne.",1900-01-01 00.00.00.000,Service Desk Digital Banking,Susanne Adler,94b578171fd4e69080ebc24462b98f1ceee8d7cb5a,"Hej Sine
+ 
+Jeg lukker sagen fra i går, med henvisning til den driftsinfo vi sendte ud efter jeres henvendelse.",2026-03-27 09.09.33.853,Incident,2026-03-26 19.27.33.000,Portal,Sine Krogh,,0,2026-03-27 09.08.50.673,1900-01-01 00.00.00.000,"SJF bank Login virker ikke ","Login menu på sjfbank.dk kommer ikke frem når man trykker ""log på"" 
+via browser på mobil, kommer der intet frem når man trykker på de tre streger i øverste højre hjørne.",NTE,Service Desk Digital Banking,Bankdata,100,0,,A1 < 3 hours,,0,1,,,0,1001
+94cd74571580644db9760641dcac77bebdb4122292,2483783,2026-03-27 13.29.15.790,Resolved,JN Data,Teknisk fejlmelding til JN Data,Teknisk fejlmelding til JN Data Critial,"ERROR when connecting to folder ON SFTP server
+Hi our horizon service using username “onedaynetskib” on server secureftp.bankdata.dk
+Can not get into the folder /CLE/KSL/PAIN002
+When I try to connect to the server I have no problem with other folders but it wont show the content of /CLE/KSL/PAIN002
+I have tried to connect with users “onedaynetskib”, “ljnnetskib” and “netskib”
+
+ 
+ 
+Venlig hilsen / Best regards
+Lars Svane Jensen
+Senior Software Developer, Domestic Clearing
+
+ 
+
++45 2365 5273 | +45 7924 2892 
+ljn@bankdata.dk
+www.bankdata.dk
+Development Centre Fredericia | Erritsø Bygade 102 | DK-7000 Fredericia",1900-01-01 00.00.00.000,IIT,Internal IT Postkasse Bankdata,947acffc655f37bb05763045db999a4f721587c084,"Send tilbage til Bankdata efter aftale med Mathias - MYR
+ 
+ 
+NYR: Lukkes efter anvisning af LJN.",2026-03-27 13.56.19.433,Incident,2026-03-27 16.29.15.000,External ITSM,Lars Svane Jensen,,1,2026-03-27 13.52.19.000,1900-01-01 00.00.00.000,ERROR when connecting to folder ON SFTP server,"ERROR when connecting to folder ON SFTP server
+Hi our horizon service using username “onedaynetskib” on server secureftp.bankdata.dk
+Can not get into the folder /CLE/KSL/PAIN002
+When I try to connect to the server I have no problem with other folders but it wont show the content of /CLE/KSL/PAIN002
+I have tried to connect with users “onedaynetskib”, “ljnnetskib” and “netskib”
+
+ 
+ 
+Venlig hilsen / Best regards
+Lars Svane Jensen
+Senior Software Developer, Domestic Clearing
+
+ 
+
++45 2365 5273 | +45 7924 2892 
+ljn@bankdata.dk
+www.bankdata.dk
+Development Centre Fredericia | Erritsø Bygade 102 | DK-7000 Fredericia",IIT,Service Desk - Internal IT,Bankdata,100,0,,A1 < 3 hours,6081818,0,0,BDIncident,BD,0,23
+94cda62c27fc2d272ee1314a9f95927f70c50e723e,2487907,2026-03-31 09.12.16.737,Resolved,Driftssupport,Digital Relationsbank,Login,Vi oplever problemer med MitID login,1900-01-01 00.00.00.000,Service Desk Digital Banking,Nilaayini Umesh,948d4c5829e511dfd3da0d49dcb5fe30385bef9386,"Hej Linnea 
+ 
+MitID er nu oppe igen og sagen lukkes.",2026-03-31 14.02.30.163,Incident,2026-03-31 12.12.16.000,Phone,Linnea Damgaard Jensen,,0,2026-03-31 14.01.54.540,1900-01-01 00.00.00.000,MitID problemer,Vi oplever problemer med MitID login,NTE,Service Desk Digital Banking,Bankdata,100,0,,A1 < 3 hours,,0,1,,,0,289
+94cda6bea33cbf5e8d18f74fd18fbb6a8b8968d926,2488124,2026-03-31 10.14.46.773,Resolved,Koncept Compliance Sikkerhed,Sikkerhedshændelse,Hændelse,"We have received alerts from Artifactory, that the malicious package plain-crypto-js has been identified on our Artifacotry instance (see picture).
+We can see that the affected Axios package: 1.14.1 has been downloaded 22 times and the plain-crypto-js package has been downloaded 27 times.
+We need to investigate where these packages has been downloaded to our infrstructure.
+Known knowledge at this point in time:
+Axios Supply Chain Attack Pushes Cross-Platform RAT via Compromised npm Account
+Initial hunts has been performed on BD Defender.
+We need hunts performed other places in our infrastructure as well (incl. server infrastructure and customer defender tenants).",1900-01-01 00.00.00.000,CSE,Cybersecurity Postkasse Bankdata,948c93c60226d5421fd18645308a461e7baa1455c0,"We have observed no new attempts at installing the compromised packages since yesterday.
+The case is considered closed on our end unless other actions are requested.",2026-04-01 14.15.14.570,Incident,2026-03-31 13.14.46.000,External ITSM,Mikkel Krogh Hansen,,0,2026-04-01 13.41.01.000,1900-01-01 00.00.00.000,Axios supply chain attack,"We have received alerts from Artifactory, that the malicious package plain-crypto-js has been identified on our Artifacotry instance (see picture).
+We can see that the affected Axios package: 1.14.1 has been downloaded 22 times and the plain-crypto-js package has been downloaded 27 times.
+We need to investigate where these packages has been downloaded to our infrstructure.
+Known knowledge at this point in time:
+Axios Supply Chain Attack Pushes Cross-Platform RAT via Compromised npm Account
+Initial hunts has been performed on BD Defender.
+We need hunts performed other places in our infrastructure as well (incl. server infrastructure and customer defender tenants).",CSE,Service Desk Operations,Bankdata,100,0,,A1 < 3 hours,6092612,0,0,BDIncident,BD,0,1647

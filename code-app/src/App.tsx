@@ -42,6 +42,57 @@ type LockedSummaryRecord = {
   summary: GeneratedSummary
 }
 
+type SummaryPayload = Record<string, unknown> &
+  Partial<
+  GeneratedSummary & {
+    beskrivelse: string
+    beskrivelseAfNedbrud: string
+    kundepavirkning: string
+    kundePaavirkning: string
+    kundepåvirkning: string
+    opfolgning: string
+    opfølgning: string
+    handlingsplan: string
+  }
+>
+
+type CopilotSummaryResponse = {
+  summary?: SummaryPayload
+  data?: {
+    summary?: SummaryPayload
+  }
+  result?: SummaryPayload
+}
+
+type DataverseEntity = {
+  srv_slaburditsmprocesserid?: string
+  srv_itsmprocessesnavn?: string
+  srv_sladescription?: string
+  srv_slaforklaring?: string
+  srv_sladatafra?: string
+  srv_sladatatil?: string
+  srv_maling?: string
+  srv_severity?: string
+  createdon?: string
+}
+
+type DataverseRetrieveResponse = {
+  entities: DataverseEntity[]
+}
+
+type XrmWebApi = {
+  retrieveMultipleRecords: (entitySetName: string, query: string) => Promise<DataverseRetrieveResponse>
+  createRecord: (entitySetName: string, data: Record<string, unknown>) => Promise<unknown>
+}
+
+type XrmGlobal = {
+  WebApi?: XrmWebApi
+}
+
+const getXrm = () => {
+  return (window as Window & { Xrm?: XrmGlobal }).Xrm
+}
+
 const getPreviousMonthDateRange = () => {
   const formatLocalDate = (date: Date) => {
     const year = date.getFullYear()
@@ -174,6 +225,8 @@ export default function App() {
     (process) => !answeredDescriptionIds.has(process.id) && !alreadyReportedDescriptions.has(process.slaDescription)
   )
   const selectedProcess = availableDescriptions.find((process) => process.id === selectedProcessId) || null
+  const availableProcessNames =
+    processes.length > 0 ? Array.from(new Set(processes.map((process) => process.name))).sort() : processNameOptions
 
   const formatMonthYearDa = (dateValue: string) => {
     if (!dateValue) {
@@ -331,7 +384,7 @@ export default function App() {
       return localSummary
     }
 
-    const pickFirstText = (source: any, keys: string[]) => {
+    const pickFirstText = (source: SummaryPayload | null | undefined, keys: string[]) => {
       for (const key of keys) {
         const value = source?.[key]
         if (typeof value === 'string' && value.trim()) {
@@ -365,7 +418,7 @@ export default function App() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {}),
+          ...(apiKey ? { 'x-api-key': apiKey } : {}),
         },
         body: JSON.stringify({
           processName,
@@ -381,8 +434,9 @@ export default function App() {
         return localSummary
       }
 
-      const payload = await response.json()
-      const summaryPayload = payload?.summary ?? payload?.data?.summary ?? payload?.result ?? payload
+      const payload = (await response.json()) as CopilotSummaryResponse | SummaryPayload
+      const responsePayload = payload as CopilotSummaryResponse
+      const summaryPayload = responsePayload.summary ?? responsePayload.data?.summary ?? responsePayload.result ?? payload
 
       const descriptionSection =
         pickFirstText(summaryPayload, ['descriptionSection', 'beskrivelse', 'beskrivelseAfNedbrud']) ||
@@ -446,19 +500,21 @@ export default function App() {
   const fetchProcesses = async () => {
     setLoadingProcesses(true)
     try {
-      const isInPowerApps = typeof (window as any).Xrm !== 'undefined'
+      const xrm = getXrm()
+      const isInPowerApps = typeof xrm !== 'undefined'
 
       if (isInPowerApps) {
-        const xrm = (window as any).Xrm
         if (xrm && xrm.WebApi) {
           console.log('Fetching SLA processes from Dataverse...')
           const response = await xrm.WebApi.retrieveMultipleRecords('srv_slaburditsmprocesser', '?$select=srv_itsmprocessesnavn,srv_sladescription')
 
-          const fetchedProcesses: SLAProcess[] = response.entities.map((entity: any) => ({
-            id: entity.srv_slaburditsmprocesserid,
-            name: entity.srv_itsmprocessesnavn,
-            slaDescription: entity.srv_sladescription,
-          }))
+          const fetchedProcesses: SLAProcess[] = response.entities
+            .filter((entity) => entity.srv_itsmprocessesnavn && entity.srv_sladescription)
+            .map((entity, index) => ({
+              id: entity.srv_slaburditsmprocesserid || `process-${index}`,
+              name: entity.srv_itsmprocessesnavn || '',
+              slaDescription: entity.srv_sladescription || '',
+            }))
 
           setProcesses(fetchedProcesses)
           console.log('Loaded', fetchedProcesses.length, 'processes')
@@ -477,10 +533,10 @@ export default function App() {
 
   const fetchBreaches = async () => {
     try {
-      const isInPowerApps = typeof (window as any).Xrm !== 'undefined'
+      const xrm = getXrm()
+      const isInPowerApps = typeof xrm !== 'undefined'
 
       if (isInPowerApps) {
-        const xrm = (window as any).Xrm
         if (xrm && xrm.WebApi) {
           console.log('Fetching SLA breaches from Dataverse...')
           const response = await xrm.WebApi.retrieveMultipleRecords(
@@ -488,17 +544,28 @@ export default function App() {
             '?$select=srv_itsmprocessesnavn,srv_sladescription,srv_slaforklaring,srv_sladatafra,srv_sladatatil,srv_maling,srv_severity,createdon&$orderby=createdon desc'
           )
 
-          const fetchedBreaches: SLABreach[] = response.entities.map((entity: any) => ({
-            id: entity.srv_slaburditsmprocesserid,
-            processName: entity.srv_itsmprocessesnavn,
-            slaDescription: entity.srv_sladescription,
-            explanation: entity.srv_slaforklaring,
-            dateFrom: entity.srv_sladatafra?.split('T')[0],
-            dateTo: entity.srv_sladatatil?.split('T')[0],
-            measurement: entity.srv_maling,
-            severity: entity.srv_severity?.toLowerCase() || 'green',
-            createdOn: entity.createdon?.split('T')[0],
-          }))
+          const fetchedBreaches: SLABreach[] = response.entities
+            .filter(
+              (entity) =>
+                entity.srv_itsmprocessesnavn &&
+                entity.srv_sladescription &&
+                entity.srv_slaforklaring &&
+                entity.srv_sladatafra &&
+                entity.srv_sladatatil &&
+                entity.srv_maling &&
+                entity.srv_severity
+            )
+            .map((entity, index) => ({
+              id: entity.srv_slaburditsmprocesserid || `breach-${index}`,
+              processName: entity.srv_itsmprocessesnavn || '',
+              slaDescription: entity.srv_sladescription || '',
+              explanation: entity.srv_slaforklaring || '',
+              dateFrom: entity.srv_sladatafra?.split('T')[0] || '',
+              dateTo: entity.srv_sladatatil?.split('T')[0] || '',
+              measurement: entity.srv_maling || '',
+              severity: (entity.srv_severity?.toLowerCase() as Severity) || 'green',
+              createdOn: entity.createdon?.split('T')[0],
+            }))
 
           setBreaches(fetchedBreaches)
         }
@@ -569,14 +636,14 @@ export default function App() {
     setMessage('')
 
     try {
-      const isInPowerApps = typeof (window as any).Xrm !== 'undefined'
+      const xrm = getXrm()
+      const isInPowerApps = typeof xrm !== 'undefined'
       const submittedProcessName = selectedProcess.name
       const submittedSlaDescription = selectedProcess.slaDescription
       const submittedDateFrom = dateFrom
       const submittedDateTo = dateTo
 
       if (isInPowerApps) {
-        const xrm = (window as any).Xrm
         if (xrm && xrm.WebApi) {
           console.log('Saving SLA breach to Dataverse...')
           await xrm.WebApi.createRecord('srv_slaburditsmprocesser', {
@@ -709,7 +776,7 @@ export default function App() {
               disabled={loading}
             >
               <option value="">-- Vælg proces --</option>
-              {processNameOptions.map((processName) => (
+              {availableProcessNames.map((processName) => (
                 <option key={processName} value={processName}>
                   {processName}
                 </option>
@@ -1145,4 +1212,3 @@ export default function App() {
     </div>
   )
 }
-
