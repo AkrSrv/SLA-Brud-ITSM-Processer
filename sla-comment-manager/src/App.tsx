@@ -130,8 +130,18 @@ function App() {
     setAvailableServices([])
     setSelectedService('')
 
-    if (!accessToken) {
-      setDataverseError('Indsæt access token.')
+    // For testing without tokens, use mock data
+    if (!accessToken.trim()) {
+      // Mock data for testing UI
+      const mockServices = [
+        'Netbank - Privat',
+        'Netbank - Erhverv',
+        'Mobile Banking',
+        'Betalingsservice',
+        'Kort & Betalinger'
+      ]
+      setAvailableServices(mockServices)
+      setMessage(`${mockServices.length} ydelser fundet for ${selectedMonth} (MOCK DATA). Vælg en ydelse.`)
       setIsLoadingDataverse(false)
       return
     }
@@ -174,8 +184,70 @@ function App() {
     setDataverseError('')
     setMessage('')
 
-    if (!accessToken) {
-      setDataverseError('Indsæt access token.')
+    // For testing without tokens, use mock data
+    if (!accessToken.trim()) {
+      // Mock data for testing UI
+      const mockComments: CommentRecord[] = [
+        {
+          id: 'mock-1',
+          srv_slakommentarid: 'mock-1',
+          requestId: 'REQ-2026-001',
+          serviceName: selectedService,
+          month: selectedMonth,
+          generatedAt: '2026-03-15T10:30:00Z',
+          status: 'Til redigering',
+          srv_status: 923910001,
+          aiComment: `Beskrivelse af nedbrud/SLA-brud:
+Der opstod et kritisk nedbrud i ${selectedService} systemet kl. 08:45, hvilket resulterede i at kunder ikke kunne tilgå deres konti.
+
+Kundepåvirkning:
+Ca. 15.000 kunder blev påvirket af nedbruddet. Kunder kunne ikke logge ind, overføre penge eller se deres kontobevægelser.
+
+Opfølgning:
+Systemet blev genstartet kl. 09:15 efter identifikation af database-forbindelsesproblemet.
+
+Handlingsplan:
+1. Implementere bedre database connection pooling
+2. Tilføje automatisk failover mekanisme
+3. Øge overvågningsniveau for database performance`,
+          summary: defaultSummary,
+          isEditing: false,
+        },
+        {
+          id: 'mock-2',
+          srv_slakommentarid: 'mock-2',
+          requestId: 'REQ-2026-002',
+          serviceName: selectedService,
+          month: selectedMonth,
+          generatedAt: '2026-03-22T14:20:00Z',
+          status: 'Kladde',
+          srv_status: 923910000,
+          aiComment: `Beskrivelse af nedbrud/SLA-brud:
+Performance problemer i ${selectedService} medførte langsomme svartider gennem hele dagen.
+
+Kundepåvirkning:
+Kunder oplevede svartider på op til 30 sekunder ved login og transaktioner.
+
+Opfølgning:
+Problemet blev løst ved at skalere serverkapaciteten op midlertidigt.
+
+Handlingsplan:
+1. Implementere automatisk skalering baseret på load
+2. Optimere database queries
+3. Tilføje performance monitoring alerts`,
+          summary: defaultSummary,
+          isEditing: false,
+        }
+      ]
+
+      // Parse the AI comments into sections
+      const parsedComments = mockComments.map(comment => ({
+        ...comment,
+        summary: comment.aiComment ? parseAiCommentToSummary(comment.aiComment) : defaultSummary
+      }))
+
+      setComments(parsedComments)
+      setMessage(`${parsedComments.length} kommentarer indlæst for ${selectedService || 'valgt ydelse'} (MOCK DATA).`)
       setIsLoadingDataverse(false)
       return
     }
@@ -234,8 +306,37 @@ function App() {
     setMessage('')
 
     const cleanId = editingRecord.id.replace(/[{}]/g, '')
-    const url = `${dataverseBaseUrl.replace(/\/$/, '')}/api/data/v9.1/${entityPluralName}(${cleanId})`
     const updatedComment = buildAiCommentFromSummary(summary)
+
+    // For testing without tokens, simulate save operation
+    if (!accessToken.trim()) {
+      // Mock save operation
+      setTimeout(() => {
+        setComments(prev => prev.map(c =>
+          c.id === editingRecord.id
+            ? {
+                ...c,
+                summary,
+                srv_status: status,
+                status: status === 923910001 ? 'Til redigering' : status === 923910002 ? 'Godkendt' : c.status,
+                aiComment: updatedComment
+              }
+            : c
+        ))
+
+        if (status === 923910002) {
+          setEditingRecord(null)
+          setMessage(`✅ Kommentar godkendt og låst for redigering (MOCK SAVE)!\nGodkendt tidspunkt: ${new Date().toLocaleString('da-DK')}\nData ville blive gemt i "srv_endeligkommentar"`)
+        } else {
+          setEditingRecord(null)
+          setMessage(`💾 Kommentar gemt til senere redigering (MOCK SAVE) i "srv_redigeretkommentar"`)
+        }
+        setIsLoadingDataverse(false)
+      }, 1000) // Simulate network delay
+      return
+    }
+
+    const url = `${dataverseBaseUrl.replace(/\/$/, '')}/api/data/v9.1/${entityPluralName}(${cleanId})`
 
     // Bestem hvilket felt skal gemmes baseret på status
     const updatePayload: any = {
@@ -274,10 +375,10 @@ function App() {
       // Opdater lokal state
       setComments(prev => prev.map(c =>
         c.id === editingRecord.id
-          ? { 
-              ...c, 
-              summary, 
-              srv_status: status, 
+          ? {
+              ...c,
+              summary,
+              srv_status: status,
               status: status === 923910001 ? 'Til redigering' : status === 923910002 ? 'Godkendt' : c.status,
               aiComment: updatedComment
             }
@@ -332,11 +433,11 @@ function App() {
           <button onClick={loadServicesForMonth} disabled={isLoadingDataverse}>1. Hent ydelser for måned</button>
         </div>
         <div className="summary-block">
-          <label>Access token</label>
+          <label>Access token {!accessToken.trim() && <span style={{color: '#059669', fontWeight: 'bold'}}>(valgfrit - appen virker med mock data)</span>}</label>
           <textarea
             value={accessToken}
             onChange={(e) => setAccessToken(e.target.value)}
-            placeholder="Indsæt Bearer token til Dataverse her"
+            placeholder="Indsæt Bearer token til Dataverse her (eller lad stå tomt for at teste med mock data)"
           />
         </div>
         {dataverseError && <div className="alert alert-error">{dataverseError}</div>}
